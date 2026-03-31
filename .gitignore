@@ -28,10 +28,6 @@ Code/frontend/.next/
 *.bin
 *.safetensors
 
-# Test/Validation data (regenerated via scripts)
-Code/backend/test_data/
-Code/backend/validation_data/
-
 # Logs
 *.log
 npm-debug.log*
