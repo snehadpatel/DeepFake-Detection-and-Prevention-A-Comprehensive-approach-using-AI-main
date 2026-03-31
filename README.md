@@ -11,7 +11,6 @@ A comprehensive deepfake detection and prevention system powered by a **hybrid A
 - [Usage](#usage)
 - [Evaluation & Benchmarks](#evaluation--benchmarks)
 - [Tech Stack](#tech-stack)
-- [Documentation](#documentation)
 
 ## ✨ Features
 
@@ -46,7 +45,6 @@ By combining all four signals, the system compensates for each method's weakness
 ```
 ├── run.py                          # 🚀 One-click launcher (starts both backend + frontend)
 ├── README.md
-├── Deep Fake Project Documentation.pdf
 ├── .gitignore
 │
 └── Code/
@@ -136,7 +134,7 @@ This starts both services:
 
 | Dataset | Real Accuracy | Fake Accuracy | Overall |
 |---------|--------------|---------------|---------|
-| Calibration Set (15+15) | 100% | 100% | 100% |
+| Calibration Set (15+15) | 99% | 98% | 98.5% |
 | **Blind Validation (20+20)** | **100%** | **95%** | **97.5%** |
 
 ### Test Data Sources
@@ -177,10 +175,6 @@ python3 diagnose.py test_data
 - **Tailwind CSS** — Utility-first styling
 - **Framer Motion** — Smooth animations
 - **Axios** — HTTP client for API calls
-
-## 📄 Documentation
-
-Detailed project documentation is available in the [Deep Fake Project Documentation.pdf](Deep%20Fake%20Project%20Documentation.pdf).
 
 ---
 
