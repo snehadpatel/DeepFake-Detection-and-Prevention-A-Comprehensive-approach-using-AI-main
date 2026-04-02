@@ -12,7 +12,7 @@ from PIL import Image
 from io import BytesIO
 
 DATASET_DIR = "dataset"
-NUM_PER_CLASS = 200  # 200 real + 200 fake = 400 total
+NUM_PER_CLASS = 500  # 500 real + 500 fake = 1000 total
 
 def download_real_faces(output_dir, count):
     """Download real face photos from randomuser.me API."""

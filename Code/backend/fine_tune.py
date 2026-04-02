@@ -52,9 +52,11 @@ class DeepfakeDataset(Dataset):
     def __init__(self, paths, labels, processor, augment=False):
         self.paths, self.labels, self.processor = paths, labels, processor
         self.aug = transforms.Compose([
-            transforms.RandomHorizontalFlip(0.5),
-            transforms.RandomRotation(15),
+            transforms.RandomResizedCrop(224, scale=(0.8, 1.0)),
+            transforms.RandomHorizontalFlip(),
             transforms.ColorJitter(0.2, 0.2, 0.2, 0.1),
+            transforms.RandomGrayscale(p=0.1),
+            transforms.GaussianBlur(kernel_size=(3, 3), sigma=(0.1, 2.0)),
         ]) if augment else None
 
     def __len__(self):
@@ -154,7 +156,7 @@ def hp_search(processor, tr_p, tr_l, v_p, v_l):
         model = model.to(DEVICE)
         opt = torch.optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()),
                                 lr=cfg['lr'], weight_decay=cfg['wd'])
-        crit = nn.CrossEntropyLoss()
+        crit = nn.CrossEntropyLoss(label_smoothing=0.1)
         best_va = 0
         for ep in range(3):
             tl, ta = train_epoch(model, tr_dl, opt, crit, DEVICE)
@@ -187,7 +189,7 @@ def full_train(processor, tr_p, tr_l, v_p, v_l, te_p, te_l, cfg):
     model = model.to(DEVICE)
     opt = torch.optim.AdamW(filter(lambda p: p.requires_grad, model.parameters()),
                             lr=cfg['lr'], weight_decay=cfg['wd'])
-    crit = nn.CrossEntropyLoss()
+    crit = nn.CrossEntropyLoss(label_smoothing=0.1)
 
     history = {"train_loss": [], "train_acc": [], "val_loss": [], "val_acc": []}
     best_va, patience_ctr, best_ep = 0, 0, 0
