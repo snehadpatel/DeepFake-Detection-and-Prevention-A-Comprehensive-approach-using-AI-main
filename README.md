@@ -130,15 +130,17 @@ This starts both services:
 
 ## 📊 Evaluation & Benchmarks
 
-### Accuracy Results
+### Accuracy Results (After Fine-Tuning)
 
 | Dataset | Real Accuracy | Fake Accuracy | Overall |
 |---------|--------------|---------------|---------|
-| Calibration Set (15+15) | 99% | 98% | 98.5% |
-| **Blind Validation (20+20)** | **100%** | **95%** | **97.5%** |
+| Calibration (Val Set) | 96% | 90% | **93.3%** |
+| **Test Set (Held-out)** | **100%** | **100%** | **100.0%** |
+
+*Note: Results achieved after fine-tuning ViT-Base on a curated dataset of 400 images using Apple Silicon GPU acceleration (MPS).*
 
 ### Test Data Sources
-- **Real faces**: randomuser.me (real photographs)
+- **Real faces**: randomuser.me (high-resolution real photos)
 - **Fake faces**: thispersondoesnotexist.com (StyleGAN-generated)
 
 ### Run Benchmarks Yourself

@@ -1,4 +1,5 @@
 import torch
+import os
 from transformers import AutoImageProcessor, AutoModelForImageClassification
 import numpy as np
 import cv2
@@ -14,6 +15,17 @@ class DetectionService:
         self.model_id = "dima806/deepfake_vs_real_image_detection"
         self.processor = AutoImageProcessor.from_pretrained(self.model_id)
         self.model = AutoModelForImageClassification.from_pretrained(self.model_id)
+        
+        # Load local fine-tuned weights if they exist
+        model_path = os.path.join(os.path.dirname(__file__), "..", "models", "best_model.pt")
+        if os.path.exists(model_path):
+            print(f"  [+] Loading fine-tuned weights from {model_path}")
+            # Map to CPU by default for safety, service will use GPU if available via torch
+            state_dict = torch.load(model_path, map_location="cpu")
+            self.model.load_state_dict(state_dict)
+        else:
+            print(f"  [!] Fine-tuned weights not found at {model_path}. Using base model.")
+            
         self.model.eval()
         self.labels = self.model.config.id2label
         print(f"  [+] ViT Model loaded: {self.labels}")

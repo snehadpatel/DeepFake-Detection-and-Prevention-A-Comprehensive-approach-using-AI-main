@@ -31,15 +31,24 @@ def run_benchmark(test_dir):
             elif category == "fake" and not is_real_pred:
                 results[category]["correct"] += 1
     
-    total_correct = results["real"]["correct"] + results["fake"]["correct"]
     total_samples = results["real"]["total"] + results["fake"]["total"]
     accuracy = (total_correct / total_samples) * 100 if total_samples > 0 else 0
     
-    print("\n--- Benchmark Results ---")
-    print(f"Real Accuracy: {results['real']['correct']}/{results['real']['total']} ({results['real']['correct']/results['real']['total']*100:.2f}%)")
-    print(f"Fake Accuracy: {results['fake']['correct']}/{results['fake']['total']} ({results['fake']['correct']/results['fake']['total']*100:.2f}%)")
-    print(f"Overall Accuracy: {accuracy:.2f}%")
-    print("-------------------------\n")
+    # Calculate simple precision/recall manually for summary
+    real_acc = (results["real"]["correct"] / results["real"]["total"] * 100) if results["real"]["total"] > 0 else 0
+    fake_acc = (results["fake"]["correct"] / results["fake"]["total"] * 100) if results["fake"]["total"] > 0 else 0
+
+    print("\n" + "="*40)
+    print("      DEEPSHIELD AI BENCHMARK        ")
+    print("="*40)
+    print(f"Dataset:      {test_dir}")
+    print(f"Total Images: {total_samples}")
+    print("-" * 40)
+    print(f"Real Accuracy: {results['real']['correct']}/{results['real']['total']} ({real_acc:.1f}%)")
+    print(f"Fake Accuracy: {results['fake']['correct']}/{results['fake']['total']} ({fake_acc:.1f}%)")
+    print("-" * 40)
+    print(f"OVERALL ACCURACY: {accuracy:.2f}%")
+    print("="*40 + "\n")
     
     return accuracy
 
